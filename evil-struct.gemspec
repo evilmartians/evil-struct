@@ -3,7 +3,7 @@ Gem::Specification.new do |gem|
   gem.version  = "0.0.1"
   gem.author   = "Andrew Kozin (nepalez)"
   gem.email    = "andrew.kozin@gmail.com"
-  gem.homepage = "https://github.com/evilmartians/evil-client"
+  gem.homepage = "https://github.com/evilmartians/evil-struct"
   gem.summary  = "Structure with type constraints based on dry-initializer"
   gem.license  = "MIT"
 
