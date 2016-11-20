@@ -8,11 +8,8 @@ Nested structure with type constraints, based on the [dry-initializer][dry-initi
 [![Gem Version][gem-badger]][gem]
 [![Build Status][travis-badger]][travis]
 [![Dependency Status][gemnasium-badger]][gemnasium]
-[![Code Climate][codeclimate-badger]][codeclimate]
 [![Inline docs][inch-badger]][inch]
 
-[codeclimate-badger]: https://img.shields.io/codeclimate/github/nepalez/evil-struct.svg?style=flat
-[codeclimate]: https://codeclimate.com/github/nepalez/evil-struct
 [gem-badger]: https://img.shields.io/gem/v/evil-struct.svg?style=flat
 [gem]: https://rubygems.org/gems/evil-struct
 [gemnasium-badger]: https://img.shields.io/gemnasium/nepalez/evil-struct.svg?style=flat
