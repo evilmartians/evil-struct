@@ -83,9 +83,22 @@ product == { title: "apple", price: 10.9, description: "a fruit", quantity: 0 }
 # => true
 ```
 
+## Compatibility
+
+Tested under rubies [compatible to MRI 2.2+](.travis.yml).
+
+## Contributing
+
+* [Fork the project](https://github.com/dry-rb/dry-initializer)
+* Create your feature branch (`git checkout -b my-new-feature`)
+* Add tests for it
+* Commit your changes (`git commit -am '[UPDATE] Add some feature'`)
+* Push to the branch (`git push origin my-new-feature`)
+* Create a new Pull Request
+
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT License][license].
 
 [dry-initializer]: https://rom-rb.org/gems/dry-initializer
 [dry-struct]: https://rom-rb.org/gems/dry-struct
