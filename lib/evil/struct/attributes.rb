@@ -1,5 +1,6 @@
 # Handler for shared options
 class Evil::Struct::Attributes
+  # @private
   def self.call(*args, &block)
     new(*args).instance_eval(&block)
   end

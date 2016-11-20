@@ -4,7 +4,7 @@ rescue LoadError
   nil
 end
 
-require "evil/struct"
+require "evil-struct"
 require "dry-types"
 
 RSpec.configure do |config|
