@@ -12,6 +12,10 @@ class Evil::Struct::Attributes
     @options = options
   end
 
+  # Declares an attribute that shares options of the block
+  # @param  (see Struct.attribute)
+  # @option (see Struct.attribute)
+  # @return (see Struct.attribute)
   def attribute(name, type = nil, **options)
     @klass.send :attribute, name, type, @options.merge(options)
   end

@@ -34,9 +34,9 @@ class Evil::Struct
 
     # Shares options between definitions made inside the block
     #
-    # @param  [Hash<Symbol, Object>] options
-    # @param  [Proc] block
-    # @return [self]
+    # @param  [Hash<Symbol, Object>] options Shared options
+    # @param  [Proc] block Block with definitions of attributes
+    # @return [self] itself
     #
     def attributes(**options, &block)
       Attributes.call(self, **options, &block)
@@ -113,10 +113,11 @@ class Evil::Struct
   alias_method :to_hash, :to_h
   alias_method :dump,    :to_h
 
-  # @!method [](key) Returns a value of the attribute
+  # @!method [](key)
+  #   Gets the attribute value by name
   #
   # @param  [Symbol, String] key The name of the attribute
-  # @return [Object]
+  # @return [Object] A value of the attribute
   #
   alias_method :[], :send
 
