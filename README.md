@@ -95,9 +95,9 @@ The gem is available as open source under the terms of the [MIT License](./LICEN
 [dry-struct]: https://rom-rb.org/gems/dry-struct
 [gem-badger]: https://img.shields.io/gem/v/evil-struct.svg?style=flat
 [gem]: https://rubygems.org/gems/evil-struct
-[gemnasium-badger]: https://img.shields.io/gemnasium/nepalez/evil-struct.svg?style=flat
-[gemnasium]: https://gemnasium.com/nepalez/evil-struct
-[inch-badger]: http://inch-ci.org/github/nepalez/evil-struct.svg
-[inch]: https://inch-ci.org/github/nepalez/evil-struct
-[travis-badger]: https://img.shields.io/travis/nepalez/evil-struct/master.svg?style=flat
-[travis]: https://travis-ci.org/nepalez/evil-struct
+[gemnasium-badger]: https://img.shields.io/gemnasium/evilmartians/evil-struct.svg?style=flat
+[gemnasium]: https://gemnasium.com/evilmartians/evil-struct
+[inch-badger]: http://inch-ci.org/github/evilmartians/evil-struct.svg
+[inch]: https://inch-ci.org/github/evilmartians/evil-struct
+[travis-badger]: https://img.shields.io/travis/evilmartians/evil-struct/master.svg?style=flat
+[travis]: https://travis-ci.org/evilmartians/evil-struct
