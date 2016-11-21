@@ -5,6 +5,7 @@ class Evil::Struct
   extend Dry::Initializer::Mixin
 
   require_relative "struct/attributes"
+  require_relative "struct/utils"
 
   class << self
     # Builds a struct from value that respond to `to_h` or `to_hash`
@@ -115,7 +116,7 @@ class Evil::Struct
   def to_h
     self.class.list_of_attributes.each_with_object({}) do |key, hash|
       val = send(key)
-      hash[key] = hashify(val) unless val == Dry::Initializer::UNDEFINED
+      hash[key] = Utils.hashify(val) unless val == Dry::Initializer::UNDEFINED
     end
   end
   alias_method :to_hash, :to_h
@@ -156,25 +157,35 @@ class Evil::Struct
   # @return [self.class] new instance of the current class
   #
   def merge(other)
-    hash = if    other.is_a?(Hash)          then other
-           elsif other.respond_to? :to_h    then other.to_h
-           elsif other.respond_to? :to_hash then other.to_hash
-           end
-
-    self.class[to_h.merge(hash)]
+    self.class[Utils.merge(to_h, other)]
   end
 
-  private
-
-  def hashify(value)
-    if value.is_a? Hash
-      value.each_with_object({}) { |(key, val), obj| obj[key] = hashify(val) }
-    elsif value.is_a? Array          then value.map { |item| hashify(item) }
-    elsif value&.respond_to? :to_a   then hashify(value.to_a)
-    elsif value&.respond_to? :to_h   then hashify(value.to_h)
-    elsif value.respond_to? :to_hash then hashify(value.to_hash)
-    elsif value.is_a? Enumerable     then value.map { |item| hashify(item) }
-    else  value
-    end
+  # Deeply merges other object to the current struct
+  #
+  # It iterates through hashes and objects responding to `to_h` and `to_hash`.
+  # The iteration stops when any non-hash value reached.
+  #
+  # @example
+  #   class User < Evil::Struct
+  #     attribute :info
+  #     attribute :meta
+  #   end
+  #   user = User.new info: { names: [{ first: "Joe", last: "Doe" }], age: 33 },
+  #                   meta: { type:  :admin }
+  #
+  #   user.merge info: { names: [{ first: "John" }] }, meta: { "role" => :cto }
+  #   user.to_h # => {
+  #             #      info: { names: [{ first: "John" }], age: 33 },
+  #             #      meta: { type: :admin, role: :cto }
+  #             #    }
+  #
+  # @param  [Hash, #to_h, #to_hash] other
+  # @return [self.class] new instance of the current class
+  #
+  # @alias :deep_merge
+  #
+  def merge_deeply(other)
+    self.class[Utils.merge_deeply(self, other)]
   end
+  alias_method :deep_merge, :merge_deeply
 end

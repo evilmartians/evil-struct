@@ -17,19 +17,11 @@ Style/FileName:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Style/ModuleFunction:
+  Enabled: false
+
 Style/StringLiterals:
   EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
-
-# Settings for Struct#hashify
-
-Metrics/CyclomaticComplexity:
-  Max: 7
-
-Metrics/AbcSize:
-  Max: 17.12
-
-Metrics/PerceivedComplexity:
-  Max: 8

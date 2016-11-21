@@ -10,28 +10,38 @@ describe "merge" do
 
   let(:struct) { Test::Foo.new foo: :FOO, bar: :BAR }
 
-  it "merges hash" do
-    result = struct.merge bar: :BAZ
+  it "merges hash with symbol keys" do
+    other = { bar: :BAZ, baz: :QUX }
+    expect { struct.merge(other) }.not_to change { struct }
 
-    expect(result).not_to eql struct
+    result = struct.merge(other)
+    expect(result).to be_instance_of Test::Foo
+    expect(result).to eq foo: :FOO, bar: :BAZ
+  end
+
+  it "merges hash with string keys" do
+    other = { "bar" => :BAZ, "baz" => :QUX }
+    expect { struct.merge(other) }.not_to change { struct }
+
+    result = struct.merge(other)
     expect(result).to be_instance_of Test::Foo
     expect(result).to eq foo: :FOO, bar: :BAZ
   end
 
   it "merges objects supporting #to_h" do
-    other  = double to_h: { bar: :BAZ, baz: :QUX }
-    result = struct.merge(other)
+    other = double to_h: { bar: :BAZ, baz: :QUX }
+    expect { struct.merge(other) }.not_to change { struct }
 
-    expect(result).not_to eql struct
+    result = struct.merge(other)
     expect(result).to be_instance_of Test::Foo
     expect(result).to eq foo: :FOO, bar: :BAZ
   end
 
   it "merges objects supporting #to_hash" do
-    other  = double to_hash: { bar: :BAZ, baz: :QUX }
-    result = struct.merge(other)
+    other = double to_hash: { bar: :BAZ, baz: :QUX }
+    expect { struct.merge(other) }.not_to change { struct }
 
-    expect(result).not_to eql struct
+    result = struct.merge(other)
     expect(result).to be_instance_of Test::Foo
     expect(result).to eq foo: :FOO, bar: :BAZ
   end
