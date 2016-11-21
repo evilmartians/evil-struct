@@ -74,6 +74,36 @@ product == { title: "apple", price: 10.9, description: "a fruit", quantity: 0 }
 # => true
 ```
 
+The structure is designed for immutability. That's why it doesn't contain writers (but you can define them by yourself via `attr_writer`).
+
+Instead of mutating current instance, you can merge another hash to the object via `merge` or `deep_merge`.
+
+```ruby
+new_product = product.merge(title: "orange")
+new_product.class # => Product
+new_product.to_h
+# => { title: "orange", price: 10.9, description: "a fruit", quantity: 0 }
+
+# you can merge any object that responds to `to_h` or `to_hash`
+other = Product[title: "orange", price: 12]
+new_product = product.merge(other)
+new_product.to_h
+# => { title: "orange", price: 12, description: "a fruit", quantity: 0 }
+
+# merge_deeply (deep_merge) gracefully merge nested hashes or hashified objects
+grape = Product.new title: "grape",
+                    price: 30,
+                    description: { country: "FR", year: 2016, sort: "Merlot" }
+
+new_grape = grape.merge_deeply description: { year: 2017 }
+new_grape.to_h
+# => {
+#      title: "grape",
+#      price: 30,
+#      description: { country: "FR", year: 2017, sort: "Merlot" }
+#     }
+```
+
 ## Compatibility
 
 Tested under rubies [compatible to MRI 2.2+](.travis.yml).
