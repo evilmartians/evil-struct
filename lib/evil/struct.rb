@@ -32,14 +32,20 @@ class Evil::Struct
     alias_method :[],   :new
     alias_method :load, :new
 
+    # @!method attributes(options)
     # Shares options between definitions made inside the block
     #
-    # @param  [Hash<Symbol, Object>] options Shared options
-    # @param  [Proc] block Block with definitions of attributes
+    # @example
+    #   attributes optional: true do
+    #     attribute :foo
+    #     attribute :bar
+    #   end
+    #
+    # @option options (see #attribute)
     # @return [self] itself
     #
     def attributes(**options, &block)
-      Attributes.call(self, **options, &block)
+      Attributes.call(self, options, &block)
       self
     end
 
@@ -51,16 +57,18 @@ class Evil::Struct
       @list_of_attributes ||= []
     end
 
+    # @!method attribute(name, type = nil, options)
     # Declares the attribute
     #
     # @param  [#to_sym] name       The name of the key
-    # @param  [#call]   type (nil) The constraint
+    # @param  [#call]   type (nil) The type constraint
+    # @option options [#call]   :type     Type constraint (alternative syntax)
     # @option options [#to_sym] :as       The name of the attribute
     # @option options [Proc]    :default  Block returning a default value
     # @option options [Boolean] :optional (nil) Whether key is optional
     # @return [self]
     #
-    # @alias :attribute
+    # @alias :option
     # @alias :param
     #
     def option(name, type = nil, as: nil, **opts)
@@ -114,30 +122,59 @@ class Evil::Struct
   alias_method :dump,    :to_h
 
   # @!method [](key)
-  #   Gets the attribute value by name
+  # Gets the attribute value by name
+  #
+  # @example
+  #   class User < Evil::Struct
+  #     attribute :name
+  #   end
+  #
+  #   joe = User.new(name: "Joe")
+  #   joe.name    # => "Joe"
+  #   joe[:name]  # => "Joe"
+  #   joe["name"] # => "Joe"
   #
   # @param  [Symbol, String] key The name of the attribute
   # @return [Object] A value of the attribute
   #
   alias_method :[], :send
 
+  # Shallowly merges other object to the current struct
+  #
+  # @example
+  #   class User < Evil::Struct
+  #     attribute :name
+  #     attribute :age
+  #   end
+  #   joe_at_3 = User.new(name: "Joe", age: 3)
+  #
+  #   joe_at_4 = joe_at_3.merge(age: 4)
+  #   joe_at_4.name # => "Joe"
+  #   joe_at_4.age  # => 4
+  #
+  # @param  [Hash, #to_h, #to_hash] other
+  # @return [self.class] new instance of the current class
+  #
+  def merge(other)
+    hash = if    other.is_a?(Hash)          then other
+           elsif other.respond_to? :to_h    then other.to_h
+           elsif other.respond_to? :to_hash then other.to_hash
+           end
+
+    self.class[to_h.merge(hash)]
+  end
+
   private
 
   def hashify(value)
     if value.is_a? Hash
       value.each_with_object({}) { |(key, val), obj| obj[key] = hashify(val) }
-    elsif value.is_a? Array
-      value.map { |item| hashify(item) }
-    elsif value&.respond_to? :to_a
-      hashify(value.to_a)
-    elsif value&.respond_to? :to_h
-      hashify(value.to_h)
-    elsif value.respond_to? :to_hash
-      hashify(value.to_hash)
-    elsif value.is_a? Enumerable
-      value.map { |item| hashify(item) }
-    else
-      value
+    elsif value.is_a? Array          then value.map { |item| hashify(item) }
+    elsif value&.respond_to? :to_a   then hashify(value.to_a)
+    elsif value&.respond_to? :to_h   then hashify(value.to_h)
+    elsif value.respond_to? :to_hash then hashify(value.to_hash)
+    elsif value.is_a? Enumerable     then value.map { |item| hashify(item) }
+    else  value
     end
   end
 end
