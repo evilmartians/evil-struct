@@ -3,7 +3,9 @@ language: ruby
 sudo: false
 cache: bundler
 bundler_args: --without benchmarks tools
-before_install: gem install bundler -v 1.12.1
+before_install:
+  - gem install bundler --no-ri --no-rdoc
+  - gem update --system
 script:
   - bundle exec rake spec
 rvm:
