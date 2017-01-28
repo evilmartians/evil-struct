@@ -3,10 +3,10 @@ language: ruby
 sudo: false
 cache: bundler
 bundler_args: --without benchmarks tools
+before_install: gem install bundler -v 1.12.1
 script:
   - bundle exec rake spec
 rvm:
-  - 2.2
   - 2.3.0
   - 2.4.0
   - jruby-9000
@@ -24,4 +24,3 @@ matrix:
     - rvm: jruby-head
   include:
     - rvm: jruby-head
-      before_install: gem install bundler --no-ri --no-rdoc
