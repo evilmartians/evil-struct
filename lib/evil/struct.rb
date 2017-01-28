@@ -115,7 +115,7 @@ class Evil::Struct
   #
   def to_h
     self.class.list_of_attributes.each_with_object({}) do |key, hash|
-      val = send(key)
+      val = instance_variable_get :"@#{key}"
       hash[key] = Utils.hashify(val) unless val == Dry::Initializer::UNDEFINED
     end
   end
